@@ -7,13 +7,18 @@
 
 #include <ncurses.h>
 
-typedef enum
+typedef struct
 {
-    Add,
-    Delete,
-    Checkout,
-    Return,
-    Status,
-    Query,
-    List
-} LibraryState;
+    int BookID;
+    char Title[128];
+    char Author[128];
+    int Possession;
+} LibraryRecord;
+
+void AddBook(LibraryRecord NewBook);
+
+void DeleteBook(int BookID);
+
+bool BookExists(int BookID);
+
+char* GetBookName(int BookID);

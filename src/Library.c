@@ -8,11 +8,12 @@ void AddBook(LibraryRecord NewBook)
 
 void DeleteBook(int BookID)
 {
-
+    // Delete a book by ID
 }
 
 bool BookExists(int BookID)
 {
+    // Check if a book exists
     return true;
 }
 

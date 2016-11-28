@@ -3,6 +3,7 @@
 
 void PrintCheckOutWindowText();
 char* Username = NULL;
+int BookID = -1;
 
 void CreateCheckOutWindow()
 {
@@ -27,6 +28,13 @@ void RemoveCheckOutWindow()
         
         RefreshLibraryTerm();
     }
+
+    if (Username)
+    {
+        free(Username);
+        Username = NULL;
+    }
+    BookID = -1;
 }
 
 void DrawCheckOutWindow()
@@ -46,10 +54,52 @@ void DrawCheckOutWindow()
     }
 }
 
+void SetCheckOutWindowUsername(char* Input)
+{
+    if (Username)
+    {
+        free(Username);
+        Username = NULL;
+    }
+
+    if (Input)
+    {
+        Username = strdup(Input);
+    }
+    else
+    {
+        Username = Input;
+    }
+
+    RefreshLibraryTerm();
+}
+
+void SetCheckOutWindowBookID(int Input)
+{
+    BookID = Input;
+    RefreshLibraryTerm();
+}
+
 void PrintCheckOutWindowText()
 {
-    mvwprintw(DeleteBookWindow, 2, 2, "User name: ");
+    if (Username)
+    {
+        mvwprintw(CheckOutWindow, 2, 2, "User name: %s", Username);
+    }
+    else
+    {
+        mvwprintw(CheckOutWindow, 2, 2, "User name:");
+    }
 
-    mvwprintw(DeleteBookWindow, 5, 2, "'t': Try again");
-    mvwprintw(DeleteBookWindow, 6, 2, "'b': Return to main menu");
+    if (BookID > -1)
+    {
+        mvwprintw(CheckOutWindow, 3, 2, "  Book ID: %d", BookID);
+    }
+    else
+    {
+        mvwprintw(CheckOutWindow, 3, 2, "  Book ID:");
+    }
+
+    mvwprintw(CheckOutWindow, 5, 2, "'t': Try again");
+    mvwprintw(CheckOutWindow, 6, 2, "'b': Return to main menu");
 }

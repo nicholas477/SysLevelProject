@@ -46,6 +46,7 @@ void SetWindowTitle(char* Input)
     if (WindowTitle)
     {
         free(WindowTitle);
+        WindowTitle = NULL;
     }
 
     WindowTitle = strdup(Input);

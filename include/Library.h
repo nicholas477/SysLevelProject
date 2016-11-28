@@ -15,10 +15,13 @@ typedef struct
     int Possession;
 } LibraryRecord;
 
+// Book funcs
 void AddBook(LibraryRecord NewBook);
-
 void DeleteBook(int BookID);
-
 bool BookExists(int BookID);
-
 char* GetBookName(int BookID);
+
+// User funcs
+bool UserExists(const char* Username);
+int GetNumBooksCheckedOut(const char* Username);
+void CheckOutBook(const char* Username, int BookID);

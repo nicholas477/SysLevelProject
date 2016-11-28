@@ -31,6 +31,8 @@ void RefreshLibraryTerm()
 
     DrawDeleteBookMenu();
 
+    DrawCheckOutWindow();
+
     ResetCursor();
 }
 

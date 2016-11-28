@@ -6,8 +6,8 @@
     "isShellCommand": true,
     "args": ["-obin/library",
         "-Iinclude",
-        "src/GUI.c", "src/main.c", "src/Library.c", 
-        "src/Windows/MainMenu.c", "src/Windows/AddBookWindow.c", "src/Windows/DeleteBookWindow.c",
+        "src/GUI.c", "src/main.c", "src/Library.c", "src/Input.c", 
+        "src/Windows/MainMenu.c", "src/Windows/AddBookWindow.c", "src/Windows/DeleteBookWindow.c", "src/Windows/CheckOutWindow.c",
         "-lncurses"],
     "showOutput": "always"
 }

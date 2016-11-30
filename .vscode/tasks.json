@@ -2,12 +2,8 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "0.1.0",
-    "command": "gcc",
+    "command": "make",
     "isShellCommand": true,
-    "args": ["-obin/library",
-        "-Iinclude",
-        "src/GUI.c", "src/main.c", "src/Library.c", "src/Input.c", 
-        "src/Windows/MainMenu.c", "src/Windows/AddBookWindow.c", "src/Windows/DeleteBookWindow.c", "src/Windows/CheckOutWindow.c",
-        "-lncurses"],
+    "args": [],
     "showOutput": "always"
 }

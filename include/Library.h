@@ -7,13 +7,20 @@
 
 #include <ncurses.h>
 
+#define MYLIBRARY_MAX_BOOKS 32
+
 typedef struct
 {
     int BookID;
     char Title[128];
     char Author[128];
     int Possession;
+    // These are in unix time
+    char CheckoutDate[16];
+    char ReturnDate[16];
 } LibraryRecord;
+
+void InitLibrary();
 
 // Book funcs
 void AddBook(LibraryRecord NewBook);

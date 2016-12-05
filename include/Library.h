@@ -20,6 +20,8 @@ typedef struct
     char ReturnDate[16];
 } LibraryRecord;
 
+extern LibraryRecord Books[MYLIBRARY_MAX_BOOKS];
+
 void InitLibrary();
 
 // Book funcs

@@ -389,7 +389,7 @@ void OpenReturnBookWindow()
                     // Retry key, reset all the data and menu
                     BookID = -1;
                     //SetDeleteBookMenuBookID(BookID);
-                    ConfirmDeleteBook = false;
+                    //ConfirmDeleteBook = false;
                     SetPromptText("Book ID:");
                     break;
 

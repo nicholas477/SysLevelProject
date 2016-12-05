@@ -11,6 +11,8 @@ int main()
     SetWindowTitle("Library Program- Menu");
     SetPromptText("#");
 
+    InitLibrary();
+
     while (true)
     {
         char* Input = GetUserInput();

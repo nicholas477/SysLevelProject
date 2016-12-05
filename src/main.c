@@ -23,7 +23,7 @@ int main()
             {
                 case 'a':
                     // Add book
-                    OpenBookMenu();
+                    OpenAddBookMenu();
                     break;
 
                 case 'd':

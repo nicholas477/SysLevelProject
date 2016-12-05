@@ -14,13 +14,14 @@ typedef struct
 {
     int BookID;
     char Title[128];
-    char Author[128];
-    char Possession[128];
+    char Author[64];
+    char Possession[64];
     char CheckoutDate[16];
     char ReturnDate[16];
 } LibraryRecord;
 
 extern LibraryRecord Books[MYLIBRARY_MAX_BOOKS];
+extern int BookCount;
 
 void InitLibrary();
 

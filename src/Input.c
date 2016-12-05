@@ -2,7 +2,7 @@
 #include "GUI.h"
 #include "Input.h"
 
-void OpenBookMenu()
+void OpenAddBookMenu()
 {
     CreateAddBookWindow();
     SetPromptText("Title:");

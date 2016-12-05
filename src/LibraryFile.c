@@ -6,7 +6,7 @@
 
 #define MYLIBRARY_BUFFER_SIZE 4096
 
-FILE *MyLibraryFile = NULL;
+FILE* MyLibraryFile = NULL;
 char MyLibraryFileBuffer[MYLIBRARY_BUFFER_SIZE];
 
 void ParseMyLibraryFile();
@@ -18,15 +18,22 @@ void SplitString(char* InString, char Delim, char** OutStrings, int OutStringsLe
     int i = 0;
     char* LastLine = &InString[0];
     int LineNum = 0;
+    int InStringLen = strlen(InString);
 
     while (InString[i] && LineNum < OutStringsLen)
     {
+        // If we have hit a delimiter char or we're at the end of the string
         if (InString[i] == Delim)
         {
             InString[i] = '\0';
             OutStrings[LineNum] = LastLine;
             LineNum++;
             LastLine = &InString[i + 1];
+        }
+        else if (i == InStringLen - 1)
+        {
+            OutStrings[LineNum] = LastLine;
+            return;
         }
 
         i++;
@@ -58,13 +65,15 @@ void InitLibraryFile()
     int i = 0;
     char c;
 
-    while ((c = fgetc(MyLibraryFile)) != EOF)
+    while ((c = fgetc(MyLibraryFile)) != EOF && i < MYLIBRARY_BUFFER_SIZE)
     {
         MyLibraryFileBuffer[i] = c;
         i++;
     }
 
     ParseMyLibraryFile();
+
+    fclose(MyLibraryFile);
 }
 
 
@@ -83,7 +92,9 @@ void ParseMyLibraryFile()
         for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
         {
             if (Lines[i])
+            {
                 RecordCount++;
+            }
         }
         snprintf(Buffer, 256, "Successfully loaded %d records", RecordCount);
         PrintMessage(&Buffer[0]);
@@ -96,9 +107,12 @@ void ParseMyLibraryFile()
 
         while (Lines[LineNum] && LineNum < MYLIBRARY_MAX_BOOKS)
         {
+            //fprintf(stderr, "%s\n", Lines[LineNum]); 
             ParseLineToRecord(Lines[LineNum], LineNum);
             LineNum++;
         }
+
+        BookCount = LineNum;
     }
 }
 
@@ -106,47 +120,81 @@ void ParseLineToRecord(char* Line, int RecordNum)
 {
     // Split the line up into individual record strings
     char* Records[MYLIBRARY_LIBRARYRECORD_MEMBERS];
+    memset(&Records, 0, sizeof(Records));
+
     SplitString(Line, ',', Records, MYLIBRARY_LIBRARYRECORD_MEMBERS);
+
+    /*
+    for (int i = 0; i < MYLIBRARY_LIBRARYRECORD_MEMBERS; i++)
+    {
+        if (Records[i])
+        {
+            fprintf(stderr, "%s,", Records[i]);
+        }
+    }
+    fprintf(stderr, "\n");
+    */
 
     // Keeping track of which record we are entering in this line
     enum RecordField 
     {
         BookID, Title, Author, Possession, CheckoutDate, ReturnDate
-    } CurrentRecordField = BookID;
+    } CurrentRecordField = 0;
 
     // Put the strings into the fields
-    for (int CurrentRecordField = 0; CurrentRecordField < MYLIBRARY_LIBRARYRECORD_MEMBERS; CurrentRecordField++)
+    while (Records[CurrentRecordField])
     {
-        char* CurrentField = Records[CurrentRecordField];
-
+        char* CurrentFieldStr = Records[CurrentRecordField];
+        
         switch (CurrentRecordField)
         {
             case BookID:
-                Books[RecordNum].BookID = atoi(CurrentField);
+                Books[RecordNum].BookID = atoi(CurrentFieldStr);
             break;
 
             case Title:
-                strncpy(Books[RecordNum].Title, CurrentField, sizeof(Books[RecordNum].Title));
+                strncpy(Books[RecordNum].Title, CurrentFieldStr, sizeof(Books[RecordNum].Title));
             break;
 
             case Author:
-                strncpy(Books[RecordNum].Author, CurrentField, sizeof(Books[RecordNum].Author));
+                strncpy(Books[RecordNum].Author, CurrentFieldStr, sizeof(Books[RecordNum].Author));
             break;
 
             case Possession:
-                strncpy(Books[RecordNum].Possession, CurrentField, sizeof(Books[RecordNum].Possession));
+                strncpy(Books[RecordNum].Possession, CurrentFieldStr, sizeof(Books[RecordNum].Possession));
             break;
 
             case CheckoutDate:
-                strncpy(Books[RecordNum].CheckoutDate, CurrentField, sizeof(Books[RecordNum].CheckoutDate));
+                strncpy(Books[RecordNum].CheckoutDate, CurrentFieldStr, sizeof(Books[RecordNum].CheckoutDate));
             break;
 
             case ReturnDate:
-                strncpy(Books[RecordNum].ReturnDate, CurrentField, sizeof(Books[RecordNum].ReturnDate));
+                strncpy(Books[RecordNum].ReturnDate, CurrentFieldStr, sizeof(Books[RecordNum].ReturnDate));
             break;
 
             default:
             break;
         }
+        CurrentRecordField++;
     }
+}
+
+void SaveFile()
+{
+    MyLibraryFile = fopen("./data/MyLibrary.txt", "w+");
+
+    if (!MyLibraryFile)
+    {
+        PrintMessage("ERROR: Failed to open MyLibrary.txt!");
+        return;
+    }
+
+    for (int i = 0; i < BookCount; i++)
+    {
+        fprintf(MyLibraryFile, "%d,%s,%s,%s,%s,%s\n", 
+            Books[i].BookID, Books[i].Title, Books[i].Author,
+            Books[i].Possession, Books[i].CheckoutDate, Books[i].ReturnDate);
+    }
+
+    fclose(MyLibraryFile);
 }

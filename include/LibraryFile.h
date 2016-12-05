@@ -1,1 +1,2 @@
 void InitLibraryFile();
+void SaveFile();

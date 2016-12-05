@@ -331,3 +331,82 @@ void OpenCheckOutWindow()
         Username = NULL;
     }
 }
+
+void OpenReturnBookWindow()
+{
+    CreateReturnBookWindow();
+    SetPromptText("Book ID:");
+
+    int BookID = -1;
+    //If this is true, we are asking for the user to input the date
+    bool EnteringDate = false;
+
+    // While true: keep getting user input even if the user inputs crap
+    while (true)
+    {
+        // This function will wait until the user presses enter
+        char* Input = GetUserInput();
+
+        if (strlen(Input) > 0)
+        {
+            // If we are not entering date, we are asking for the book id
+            if (!EnteringDate)
+            {
+                if (IsStringNumber(Input))
+                {
+                    BookID = atoi(Input);
+
+                    if (BookExists(BookID))
+                    {
+
+                    }
+                    else
+                    {
+                        char Buffer[256];
+                        snprintf(Buffer, 256, "Error: Book number %d doesn't exist!", BookID);
+                        PrintMessage(&Buffer[0]);
+                    }
+                }
+            }
+            else
+            {
+                // We are asking for the date
+            }
+        }
+        else if (strlen(Input) == 1)
+        {
+            // If the input is not a number, then check if the user has entered a single character
+            switch(Input[0])
+            {
+                case 'b':
+                    // Return to menu
+                    RemoveReturnBookWindow();
+                    SetPromptText("#");
+                    return;
+                    break;
+
+                case 't':
+                    // Retry key, reset all the data and menu
+                    BookID = -1;
+                    //SetDeleteBookMenuBookID(BookID);
+                    ConfirmDeleteBook = false;
+                    SetPromptText("Book ID:");
+                    break;
+
+                default:
+                    PrintMessage("Unrecognized input!");
+                    break;
+            }
+        }
+        else
+        {
+            PrintMessage("Unrecognized input!");
+        }
+
+        // GetUserInput() allocates mem that we need to free
+        if (Input)
+        {
+            free(Input);
+        }
+    }
+}

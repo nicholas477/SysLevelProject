@@ -33,6 +33,8 @@ void RefreshLibraryTerm()
 
     DrawCheckOutWindow();
 
+    DrawReturnBookMenu();
+
     ResetCursor();
 }
 

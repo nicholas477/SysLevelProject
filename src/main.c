@@ -37,6 +37,7 @@ int main()
                     break;
 
                 case 'r':
+                    OpenReturnBookWindow();
                     // Return a book
                     break;
 

@@ -124,17 +124,6 @@ void ParseLineToRecord(char* Line, int RecordNum)
 
     SplitString(Line, ',', Records, MYLIBRARY_LIBRARYRECORD_MEMBERS);
 
-    /*
-    for (int i = 0; i < MYLIBRARY_LIBRARYRECORD_MEMBERS; i++)
-    {
-        if (Records[i])
-        {
-            fprintf(stderr, "%s,", Records[i]);
-        }
-    }
-    fprintf(stderr, "\n");
-    */
-
     // Keeping track of which record we are entering in this line
     enum RecordField 
     {
@@ -191,9 +180,12 @@ void SaveFile()
 
     for (int i = 0; i < BookCount; i++)
     {
-        fprintf(MyLibraryFile, "%d,%s,%s,%s,%s,%s\n", 
-            Books[i].BookID, Books[i].Title, Books[i].Author,
-            Books[i].Possession, Books[i].CheckoutDate, Books[i].ReturnDate);
+        if (Books[i].BookID > -1)
+        {
+            fprintf(MyLibraryFile, "%d,%s,%s,%s,%s,%s\n", 
+                Books[i].BookID, Books[i].Title, Books[i].Author,
+                Books[i].Possession, Books[i].CheckoutDate, Books[i].ReturnDate);
+        }
     }
 
     fclose(MyLibraryFile);

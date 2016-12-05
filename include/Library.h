@@ -30,6 +30,7 @@ void AddBook(LibraryRecord NewBook);
 void DeleteBook(int BookID);
 bool BookExists(int BookID);
 char* GetBookName(int BookID);
+void ReturnBook(int BookID);
 
 // User funcs
 bool UserExists(const char* Username);

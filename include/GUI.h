@@ -37,3 +37,10 @@ void RemoveCheckOutWindow();
 void DrawCheckOutWindow();
 void SetCheckOutWindowUsername(char* Input);
 void SetCheckOutWindowBookID(int Input);
+
+// Delete book window
+WINDOW* ReturnBookWindow;
+void CreateReturnBookWindow();
+void RemoveReturnBookWindow();
+void DrawReturnBookMenu();
+void SetReturnBookMenuBookID(int InID);

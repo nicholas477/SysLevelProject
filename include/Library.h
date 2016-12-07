@@ -12,6 +12,8 @@
 #define MYLIBRARY_MAX_BOOKS 32
 #define MYLIBRARY_LIBRARYRECORD_MEMBERS 6
 
+#define MYLIBRARY_BOOK_FINE 0.05
+
 typedef struct
 {
     bool bValidBook;
@@ -33,7 +35,13 @@ void DeleteBook(int BookID);
 bool BookExists(int BookID);
 char* GetBookName(int BookID);
 void ReturnBook(int BookID);
+double GetBookFine(const char* CurrentDate, int BookID);
 
 // User funcs
 int GetNumBooksCheckedOut(const char* Username);
 void CheckOutBook(const char* Username, int BookID);
+
+// Date funcs
+bool IsLegalDate(const char* Date);
+struct tm DateToTimeStruct(const char* Date);
+int CompareDates(const char* Lhs, const char* Rhs);

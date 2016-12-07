@@ -1,5 +1,6 @@
 #include "Library.h"
 #include "LibraryFile.h"
+#include "Utils.h"
 #include <sys/stat.h>
 #include <errno.h>
 #include "GUI.h"
@@ -12,37 +13,6 @@ char MyLibraryFileBuffer[MYLIBRARY_BUFFER_SIZE];
 void ParseMyLibraryFile();
 void PrintOutRecordInfo();
 void ParseLineToRecord(char* Line);
-
-// Splits a string into an array of substrings
-void SplitString(char* InString, char Delim, char** OutStrings, int OutStringsLen)
-{
-    int i = 0;
-    char* LastLine = &InString[0];
-    int LineNum = 0;
-    int InStringLen = strlen(InString);
-
-    while (InString[i] && LineNum < OutStringsLen)
-    {
-        // If we have hit a delimiter char or we're at the end of the string
-        if (InString[i] == Delim)
-        {
-            InString[i] = '\0';
-            if (strlen(LastLine) > 0)
-            {
-                OutStrings[LineNum] = LastLine;
-                LineNum++;
-            }
-            LastLine = &InString[i + 1];
-        }
-        else if (i == InStringLen - 1)
-        {
-            OutStrings[LineNum] = LastLine;
-            return;
-        }
-
-        i++;
-    }
-}
 
 void InitLibraryFile()
 {

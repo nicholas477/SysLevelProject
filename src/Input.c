@@ -1,6 +1,7 @@
 #include "Library.h"
 #include "GUI.h"
 #include "Input.h"
+#include "Utils.h"
 
 void OpenAddBookMenu()
 {
@@ -88,20 +89,6 @@ void OpenAddBookMenu()
             return;
         }
     }
-}
-
-bool IsStringNumber(const char* Input)
-{
-    if (strlen(Input) == 0)
-        return false;
-
-    for (int i = 0; i < strlen(Input); i++)
-    {
-        if (Input[i] < '0' || Input[i] > '9')
-            return false;
-    }
-
-    return true;
 }
 
 void OpenDeleteBookMenu()
@@ -324,6 +311,7 @@ void OpenReturnBookWindow()
     SetPromptText("Book ID:");
 
     int BookID = -1;
+    char* CurrentDate = NULL;
     //If this is true, we are asking for the user to input the date
     bool EnteringDate = false;
 
@@ -344,7 +332,9 @@ void OpenReturnBookWindow()
 
                     if (BookExists(BookID))
                     {
-
+                        SetReturnBookMenuBookID(BookID);
+                        SetPromptText("Current Date:");
+                        EnteringDate = true;
                     }
                     else
                     {
@@ -357,6 +347,18 @@ void OpenReturnBookWindow()
             else
             {
                 // We are asking for the date
+                if (IsLegalDate(Input))
+                {
+                    CurrentDate = strdup(Input);
+                    SetReturnBookMenuCurrentDate(Input);
+
+                    //GetBookFine(CurrentDate, BookID);
+                    SetReturnBookMenuFine(GetBookFine(CurrentDate, BookID));
+                }
+                else
+                {
+                    PrintMessage("Error: Illegal input date!");
+                }
             }
         }
         else if (strlen(Input) == 1)
@@ -374,8 +376,10 @@ void OpenReturnBookWindow()
                 case 't':
                     // Retry key, reset all the data and menu
                     BookID = -1;
-                    //SetDeleteBookMenuBookID(BookID);
-                    //ConfirmDeleteBook = false;
+                    SetReturnBookMenuBookID(BookID);
+                    free(CurrentDate);
+                    CurrentDate = NULL;
+                    SetReturnBookMenuCurrentDate(NULL);
                     SetPromptText("Book ID:");
                     break;
 

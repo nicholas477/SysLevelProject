@@ -44,3 +44,5 @@ void CreateReturnBookWindow();
 void RemoveReturnBookWindow();
 void DrawReturnBookMenu();
 void SetReturnBookMenuBookID(int InID);
+void SetReturnBookMenuCurrentDate(const char* InCurrentDate);
+void SetReturnBookMenuFine(double InFine);

@@ -1,6 +1,7 @@
 #include "Library.h"
 #include "LibraryFile.h"
 #include "GUI.h"
+#include "Utils.h"
 
 LibraryRecord Books[MYLIBRARY_MAX_BOOKS];
 
@@ -140,4 +141,76 @@ void CheckOutBook(const char* Username, int BookID)
 
         SaveFile();
     }
+}
+
+double GetBookFine(const char* CurrentDate, int BookID)
+{
+    double Fine = 0.0;
+
+    if (Books[BookID - 1].bValidBook)
+    {
+        int DaysPastReturn = CompareDates(CurrentDate, Books[BookID - 1].ReturnDate);
+
+        if (DaysPastReturn > 0)
+        {
+            Fine = DaysPastReturn * MYLIBRARY_BOOK_FINE;
+        }
+    }
+
+    return Fine;
+}
+
+bool IsLegalDate(const char* Date)
+{
+    char* DateStr = strdup(Date);
+    char* OutDateStrs[3];
+    memset(&OutDateStrs, 0, sizeof(OutDateStrs));
+
+    bool bIsLegalDate = true;
+
+    SplitString(DateStr, '-', OutDateStrs, 3);
+
+    for (int i = 0; i < 3; i++)
+    {
+        if (!OutDateStrs[i] || !IsStringNumber(OutDateStrs[i]))
+        {
+            bIsLegalDate = false;
+            break;
+        }
+    }
+
+    free(DateStr);
+
+    return bIsLegalDate;
+}
+
+struct tm DateToTimeStruct(const char* Date)
+{
+    char* DateStr = strdup(Date);
+    char* OutDateStrs[3];
+    memset(&OutDateStrs, 0, sizeof(OutDateStrs));
+    
+    struct tm OutTime;
+    memset(&OutTime, 0, sizeof(OutTime));
+
+    SplitString(DateStr, '-', OutDateStrs, 3);
+
+    OutTime.tm_year = atoi(OutDateStrs[0]) - 1900;
+    OutTime.tm_mon = atoi(OutDateStrs[1]) - 1;
+    OutTime.tm_mday = atoi(OutDateStrs[2]);
+
+    return OutTime;
+}
+
+// If the LHS is before RHS, returns the negative difference in number of days
+// If they are equal, returns 0
+// If LHS is after RHS, returns the positive difference in number of days
+int CompareDates(const char* Lhs, const char* Rhs)
+{
+    struct tm LhsDate = DateToTimeStruct(Lhs);
+    struct tm RhsDate = DateToTimeStruct(Rhs);
+
+    double DeltaSecs = difftime(mktime(&LhsDate), mktime(&RhsDate));
+
+    return (int)(DeltaSecs / 86400.0);
 }

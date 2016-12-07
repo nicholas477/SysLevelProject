@@ -2,15 +2,18 @@
 #include "GUI.h"
 
 int BookID;
+char CurrentDate[32];
+double Fine = -1.0;
 void PrintReturnBookWindowText();
 
 void CreateReturnBookWindow()
 {
     BookID = -1;
+    memset(&CurrentDate, 0, sizeof(CurrentDate));
 
     int MaxX, MaxY, SizeX, SizeY;
     SizeX = 50;
-    SizeY = 15;
+    SizeY = 14;
 
     getmaxyx(stdscr, MaxY, MaxX);
 
@@ -54,17 +57,47 @@ void SetReturnBookMenuBookID(int InID)
     RefreshLibraryTerm();
 }
 
+void SetReturnBookMenuCurrentDate(const char* InCurrentDate)
+{
+    if (InCurrentDate)
+    {
+        strcpy(&CurrentDate[0], InCurrentDate);
+    }
+    else
+    {
+        memset(&CurrentDate, 0, sizeof(CurrentDate));
+    }
+
+    RefreshLibraryTerm();
+}
+
+void SetReturnBookMenuFine(double InFine)
+{
+    Fine = InFine;
+    RefreshLibraryTerm();
+}
+
 void PrintReturnBookWindowText()
 {
     if (BookID > -1)
     {
-        mvwprintw(ReturnBookWindow, 2, 2, "Book ID: %d", BookID);
+        mvwprintw(ReturnBookWindow, 2, 2, "     Book ID: %d", BookID);
     }
     else
     {
-        mvwprintw(ReturnBookWindow, 2, 2, "Book ID: ");
+        mvwprintw(ReturnBookWindow, 2, 2, "     Book ID: ");
+    }
+    mvwprintw(ReturnBookWindow, 3, 2, "Current Date: %s", CurrentDate);
+
+    if (Fine >= 0.0)
+    {
+        mvwprintw(ReturnBookWindow, 4, 2, "        Fine: $%.2lf", Fine);
+    }
+    else
+    {
+        mvwprintw(ReturnBookWindow, 4, 2, "        Fine: ");
     }
 
-    mvwprintw(ReturnBookWindow, 5, 2, "'t': Try again");
-    mvwprintw(ReturnBookWindow, 6, 2, "'b': Return to main menu");
+    mvwprintw(ReturnBookWindow, 9, 2, "'t': Try again");
+    mvwprintw(ReturnBookWindow, 10, 2, "'b': Return to main menu");
 }

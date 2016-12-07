@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <time.h>
 
 #include <ncurses.h>
 
@@ -34,6 +35,5 @@ char* GetBookName(int BookID);
 void ReturnBook(int BookID);
 
 // User funcs
-bool UserExists(const char* Username);
 int GetNumBooksCheckedOut(const char* Username);
 void CheckOutBook(const char* Username, int BookID);

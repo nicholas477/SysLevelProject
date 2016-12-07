@@ -27,8 +27,11 @@ void SplitString(char* InString, char Delim, char** OutStrings, int OutStringsLe
         if (InString[i] == Delim)
         {
             InString[i] = '\0';
-            OutStrings[LineNum] = LastLine;
-            LineNum++;
+            if (strlen(LastLine) > 0)
+            {
+                OutStrings[LineNum] = LastLine;
+                LineNum++;
+            }
             LastLine = &InString[i + 1];
         }
         else if (i == InStringLen - 1)
@@ -122,7 +125,7 @@ void ParseLineToRecord(char* Line)
     int RecordNum = -1;
 
     SplitString(Line, ',', Records, MYLIBRARY_LIBRARYRECORD_MEMBERS);
-
+    
     // Keeping track of which record we are entering in this line
     enum RecordField 
     {

@@ -282,33 +282,17 @@ void OpenCheckOutWindow()
             {
                 Username = strdup(Input);
 
-                if (UserExists(Username))
+                SetCheckOutWindowUsername(Username);
+
+                if (GetNumBooksCheckedOut(Username) < 3)
                 {
-                    SetCheckOutWindowUsername(Username);
-
-                    if (GetNumBooksCheckedOut(Username) < 3)
-                    {
-                        SetPromptText("Book ID:");
-                    }
-                    else
-                    {
-                        SetCheckOutWindowUsername(NULL);
-                        char Buffer[256];
-                        snprintf(Buffer, 256, "Error: User %s has 3 or more books checked out!", Username);
-                        PrintMessage(&Buffer[0]);
-
-                        if (Username)
-                        {
-                            free(Username);
-                            Username = NULL;
-                        }
-                    }
+                    SetPromptText("Book ID:");
                 }
                 else
                 {
                     SetCheckOutWindowUsername(NULL);
                     char Buffer[256];
-                    snprintf(Buffer, 256, "Error: User %s doesn't exist!", Username);
+                    snprintf(Buffer, 256, "Error: User %s has 3 or more books checked out!", Username);
                     PrintMessage(&Buffer[0]);
 
                     if (Username)

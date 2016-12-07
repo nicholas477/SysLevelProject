@@ -84,21 +84,39 @@ char* GetBookName(int BookID)
     return BookName;
 }
 
-bool UserExists(const char* Username)
-{
-    // Return true if a user exists
-    return true;
-}
-
 int GetNumBooksCheckedOut(const char* Username)
 {
     // Get the number of books checked out by a specific user.
-    // This should probably return -1 if the user doesnt exist
-    return 0;
+    int NumBooksCheckedOut = 0;
+
+    for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
+    {
+        if (strcmp(Username, Books[i].Possession) == 0)
+        {
+            NumBooksCheckedOut++;
+        }
+    }
+
+    return NumBooksCheckedOut;
 }
 
 void CheckOutBook(const char* Username, int BookID)
 {
     // Check out a book for the specified user.
     // Update the possession, check out date, and due date for this book.
+    if (Books[BookID -1].bValidBook)
+    {
+        strcpy(Books[BookID - 1].Possession, Username);
+
+        time_t CurrTime;
+        struct tm* TimeInfo;
+        char CheckoutDate[32];
+
+        time(&CurrTime);
+        TimeInfo = localtime(&CurrTime);
+
+        sprintf(CheckoutDate, "%d-%d-%d", TimeInfo->tm_year, TimeInfo->tm_mon, TimeInfo->tm_mday);
+
+        strcpy(Books[BookID - 1].CheckoutDate, CheckoutDate);
+    }
 }

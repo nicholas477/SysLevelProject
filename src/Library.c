@@ -108,15 +108,36 @@ void CheckOutBook(const char* Username, int BookID)
     {
         strcpy(Books[BookID - 1].Possession, Username);
 
-        time_t CurrTime;
-        struct tm* TimeInfo;
-        char CheckoutDate[32];
+        // Make the checkout date
+        {
+            time_t CurrTime;
+            struct tm* TimeInfo;
+            char CheckoutDate[32];
 
-        time(&CurrTime);
-        TimeInfo = localtime(&CurrTime);
+            time(&CurrTime);
+            TimeInfo = localtime(&CurrTime);
 
-        sprintf(CheckoutDate, "%d-%d-%d", TimeInfo->tm_year, TimeInfo->tm_mon, TimeInfo->tm_mday);
+            sprintf(CheckoutDate, "%d-%d-%d", TimeInfo->tm_year + 1900, TimeInfo->tm_mon + 1, TimeInfo->tm_mday);
+            strcpy(Books[BookID - 1].CheckoutDate, CheckoutDate);
+        }
 
-        strcpy(Books[BookID - 1].CheckoutDate, CheckoutDate);
+        // Make the return date
+        {
+            time_t CurrTime;
+            struct tm* TimeInfo;
+            char ReturnDate[32];
+
+            time(&CurrTime);
+            TimeInfo = localtime(&CurrTime);
+
+            // Add thirty days and make the time again
+            TimeInfo->tm_mday += 30;
+            mktime(TimeInfo);
+
+            sprintf(ReturnDate, "%d-%d-%d", TimeInfo->tm_year + 1900, TimeInfo->tm_mon + 1, TimeInfo->tm_mday);
+            strcpy(Books[BookID - 1].ReturnDate, ReturnDate);
+        }
+
+        SaveFile();
     }
 }

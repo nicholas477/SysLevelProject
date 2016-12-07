@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 #include <ncurses.h>
 
@@ -12,6 +13,7 @@
 
 typedef struct
 {
+    bool bValidBook;
     int BookID;
     char Title[128];
     char Author[64];
@@ -21,7 +23,6 @@ typedef struct
 } LibraryRecord;
 
 extern LibraryRecord Books[MYLIBRARY_MAX_BOOKS];
-extern int BookCount;
 
 void InitLibrary();
 

@@ -10,7 +10,8 @@ FILE* MyLibraryFile = NULL;
 char MyLibraryFileBuffer[MYLIBRARY_BUFFER_SIZE];
 
 void ParseMyLibraryFile();
-void ParseLineToRecord(char* Line, int RecordNum);
+void PrintOutRecordInfo();
+void ParseLineToRecord(char* Line);
 
 // Splits a string into an array of substrings
 void SplitString(char* InString, char Delim, char** OutStrings, int OutStringsLen)
@@ -74,8 +75,24 @@ void InitLibraryFile()
     ParseMyLibraryFile();
 
     fclose(MyLibraryFile);
+
+    PrintOutRecordInfo();
 }
 
+void PrintOutRecordInfo()
+{
+    char Buffer[256];
+    int RecordCount = 0;
+    for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
+    {
+        if (Books[i].bValidBook)
+        {
+            RecordCount++;
+        }
+    }
+    snprintf(Buffer, 256, "Successfully loaded %d records", RecordCount);
+    PrintMessage(&Buffer[0]);
+}
 
 void ParseMyLibraryFile()
 {
@@ -85,42 +102,24 @@ void ParseMyLibraryFile()
 
     SplitString(MyLibraryFileBuffer, '\n', Lines, MYLIBRARY_MAX_BOOKS);
 
-    // Print out how many records we've loaded (for funsies)
-    {
-        char Buffer[256];
-        int RecordCount = 0;
-        for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
-        {
-            if (Lines[i])
-            {
-                RecordCount++;
-            }
-        }
-        snprintf(Buffer, 256, "Successfully loaded %d records", RecordCount);
-        PrintMessage(&Buffer[0]);
-    }
-
-
     // Parse each line
     {
         int LineNum = 0;
 
         while (Lines[LineNum] && LineNum < MYLIBRARY_MAX_BOOKS)
-        {
-            //fprintf(stderr, "%s\n", Lines[LineNum]); 
-            ParseLineToRecord(Lines[LineNum], LineNum);
+        { 
+            ParseLineToRecord(Lines[LineNum]);
             LineNum++;
         }
-
-        BookCount = LineNum;
     }
 }
 
-void ParseLineToRecord(char* Line, int RecordNum)
+void ParseLineToRecord(char* Line)
 {
     // Split the line up into individual record strings
     char* Records[MYLIBRARY_LIBRARYRECORD_MEMBERS];
     memset(&Records, 0, sizeof(Records));
+    int RecordNum = -1;
 
     SplitString(Line, ',', Records, MYLIBRARY_LIBRARYRECORD_MEMBERS);
 
@@ -138,33 +137,53 @@ void ParseLineToRecord(char* Line, int RecordNum)
         switch (CurrentRecordField)
         {
             case BookID:
-                Books[RecordNum].BookID = atoi(CurrentFieldStr);
+                RecordNum = (atoi(CurrentFieldStr) - 1);
             break;
 
             case Title:
-                strncpy(Books[RecordNum].Title, CurrentFieldStr, sizeof(Books[RecordNum].Title));
+                if (RecordNum >= 0)
+                {
+                    strncpy(Books[RecordNum].Title, CurrentFieldStr, sizeof(Books[RecordNum].Title));
+                }
             break;
 
             case Author:
-                strncpy(Books[RecordNum].Author, CurrentFieldStr, sizeof(Books[RecordNum].Author));
+                if (RecordNum >= 0)
+                {
+                    strncpy(Books[RecordNum].Author, CurrentFieldStr, sizeof(Books[RecordNum].Author));
+                }
             break;
 
             case Possession:
-                strncpy(Books[RecordNum].Possession, CurrentFieldStr, sizeof(Books[RecordNum].Possession));
+                if (RecordNum >= 0)
+                {
+                    strncpy(Books[RecordNum].Possession, CurrentFieldStr, sizeof(Books[RecordNum].Possession));
+                }
             break;
 
             case CheckoutDate:
-                strncpy(Books[RecordNum].CheckoutDate, CurrentFieldStr, sizeof(Books[RecordNum].CheckoutDate));
+                if (RecordNum >= 0)
+                {
+                    strncpy(Books[RecordNum].CheckoutDate, CurrentFieldStr, sizeof(Books[RecordNum].CheckoutDate));
+                }
             break;
 
             case ReturnDate:
-                strncpy(Books[RecordNum].ReturnDate, CurrentFieldStr, sizeof(Books[RecordNum].ReturnDate));
+                if (RecordNum >= 0)
+                {
+                    strncpy(Books[RecordNum].ReturnDate, CurrentFieldStr, sizeof(Books[RecordNum].ReturnDate));
+                }
             break;
 
             default:
             break;
         }
         CurrentRecordField++;
+    }
+
+    if (RecordNum >= 0)
+    {
+        Books[RecordNum].bValidBook = true;
     }
 }
 
@@ -178,9 +197,9 @@ void SaveFile()
         return;
     }
 
-    for (int i = 0; i < BookCount; i++)
+    for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
     {
-        if (Books[i].BookID > -1)
+        if (Books[i].bValidBook)
         {
             fprintf(MyLibraryFile, "%d,%s,%s,%s,%s,%s\n", 
                 Books[i].BookID, Books[i].Title, Books[i].Author,

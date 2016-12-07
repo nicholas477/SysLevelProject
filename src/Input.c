@@ -127,9 +127,11 @@ void OpenDeleteBookMenu()
                 if (BookExists(BookID))
                 {
                     char Buffer[256];
-                    snprintf(Buffer, 256, "Are you sure you want to delete book '%s'? (Y/N)", GetBookName(BookID));
+                    char* BookName = GetBookName(BookID);
+                    snprintf(Buffer, 256, "Are you sure you want to delete book '%s'? (Y/N)", BookName);
                     PrintMessage(&Buffer[0]);
                     ConfirmDeleteBook = true;
+                    free(BookName);
                 }
                 else
                 {
@@ -140,6 +142,7 @@ void OpenDeleteBookMenu()
             }
             else if (strlen(Input) == 1)
             {
+                Input[0] = tolower(Input[0]);
                 switch(Input[0])
                 {
                     case 'b':
@@ -191,7 +194,6 @@ void OpenDeleteBookMenu()
         if (Input)
         {
             free(Input);
-            Input = NULL;
         }
     }
 }

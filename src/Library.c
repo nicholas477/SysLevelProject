@@ -3,11 +3,16 @@
 #include "GUI.h"
 
 LibraryRecord Books[MYLIBRARY_MAX_BOOKS];
-int BookCount = 0;
 
 void InitLibrary()
 {
     memset(&Books, 0, sizeof(Books));
+
+    // Set the indexes on the books
+    for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
+    {
+        Books[i].BookID = i + 1;
+    }
 
     InitLibraryFile();
 }
@@ -16,12 +21,14 @@ void AddBook(LibraryRecord NewBook)
 {
     // This function is only given the author and the title of the book.
     // This function needs to give the new book an ID and put it in the database    
-    for (int i = 0; i < BookCount; i++)
+    for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
     {
-        if (Books[i].BookID == -1)
+        // If this is an invalid book slot, replace it with a new book
+        if (!Books[i].bValidBook)
         {
             Books[i] = NewBook;
-            Books[i].BookID = i;
+            Books[i].BookID = i + 1;
+            Books[i].bValidBook = true;
             strcpy(Books[i].Possession, "Library");
             strcpy(Books[i].CheckoutDate, "null");
             strcpy(Books[i].ReturnDate, "null");
@@ -30,57 +37,37 @@ void AddBook(LibraryRecord NewBook)
             return;
         }
     }
-
-    // If we didn't find an empty spot
-    if (BookCount < MYLIBRARY_MAX_BOOKS)
-    {
-        Books[BookCount] = NewBook;
-        Books[BookCount].BookID = BookCount + 1;
-        strcpy(Books[BookCount].Possession, "Library");
-        strcpy(Books[BookCount].CheckoutDate, "null");
-        strcpy(Books[BookCount].ReturnDate, "null");
-        BookCount++;
-        SaveFile();
-    }
 }
 
 void DeleteBook(int BookID)
 {
     // Delete a book by ID
-    for (int i = 0; i < BookCount; i++)
+    if (Books[BookID - 1].bValidBook)
     {
-        if (Books[i].BookID == BookID)
-        {
-            memset(&Books[i], 0, sizeof(Books[i]));
-            Books[i].BookID = -1;
+        memset(&Books[BookID - 1], 0, sizeof(Books[BookID - 1]));
+        Books[BookID - 1].BookID = BookID;
 
-            SaveFile();
-        }
+        SaveFile();
+        return;
     }
 }
 
 bool BookExists(int BookID)
 {
-    for (int i = 0; i < BookCount; i++)
+    if (BookID < 1 || BookID >= MYLIBRARY_MAX_BOOKS)
     {
-        if (Books[i].BookID == BookID)
-        {
-            return true;
-        }
+        return false;
     }
 
-    return false;
+    return Books[BookID - 1].bValidBook;
 }
 
 void ReturnBook(int BookID)
 {
-    for (int i = 0; i < BookCount; i++)
+    if (Books[BookID - 1].bValidBook)
     {
-        if (Books[i].BookID == BookID)
-        {
-            strcpy(Books[i].Possession, "Library");
-            SaveFile();
-        }
+        strcpy(Books[BookID - 1].Possession, "Library");
+        SaveFile();
     }
 }
 
@@ -88,13 +75,10 @@ char* GetBookName(int BookID)
 {
     // Get book name by ID, return it
     char* BookName = calloc(256, 0);
-    
-    for (int i = 0; i < BookCount; i++)
+
+    if (Books[BookID - 1].bValidBook)
     {
-        if (Books[i].BookID == BookID)
-        {
-            strncpy(BookName, Books[i].Title, 256);
-        }
+        strcpy(BookName, &Books[BookID - 1].Title[0]);
     }
 
     return BookName;

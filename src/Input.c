@@ -411,3 +411,75 @@ void OpenReturnBookWindow()
         }
     }
 }
+
+void OpenStatusQueryWindow()
+{
+    char BookName[128];
+    memset(&BookName, 0, sizeof(BookName));
+
+    SetBookStatusWindowBookName(NULL);
+
+    CreateStatusQueryWindow();
+    SetPromptText("Book Name:");
+
+    while (true)
+    {
+        char* Input = GetUserInput();
+
+        if (strlen(Input) > 1)
+        {
+            int BookID = GetBookIDByName(Input);
+            if (BookID > -1)
+            {
+                SetStatusQueryWindowBookID(BookID);
+
+                SetBookStatusWindowBookName(Input);
+                CreateBookStatusWindow();
+            }
+            else
+            {
+                char Buffer[256];
+                snprintf(Buffer, 256, "Error: Book '%s' doesn't exist!", Input);
+                PrintMessage(&Buffer[0]);
+            }
+        }
+        else if (strlen(Input) == 1)
+        {
+            // If the input is not a number, then check if the user has entered a single character
+            switch(Input[0])
+            {
+                case 'b':
+                    // Return to menu
+                    SetBookStatusWindowBookName(NULL);
+                    RemoveBookStatusWindow();
+                    RemoveStatusQueryWindow();
+                    SetPromptText("#");
+                    return;
+                    break;
+
+                case 't':
+                    // Retry key, reset all the data and menu
+                    SetPromptText("Book ID:");
+                    SetBookStatusWindowBookName(NULL);
+                    RemoveBookStatusWindow();
+                    memset(&BookName, 0, sizeof(BookName));
+                    SetStatusQueryWindowBookID(-1);
+                    break;
+
+                default:
+                    PrintMessage("Unrecognized input!");
+                    break;
+            }
+        }
+        else
+        {
+            PrintMessage("Unrecognized input!");
+        }
+
+        if (Input)
+        {
+            free(Input);
+        }
+    }
+
+}

@@ -33,6 +33,7 @@ void InitLibrary();
 void AddBook(LibraryRecord NewBook);
 void DeleteBook(int BookID);
 bool BookExists(int BookID);
+int GetBookIDByName(const char* BookName);
 char* GetBookName(int BookID);
 void ReturnBook(int BookID);
 double GetBookFine(const char* CurrentDate, int BookID);

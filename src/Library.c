@@ -63,6 +63,19 @@ bool BookExists(int BookID)
     return Books[BookID - 1].bValidBook;
 }
 
+int GetBookIDByName(const char* BookName)
+{
+    for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
+    {
+        if (Books[i].bValidBook && strcmp(Books[i].Title, BookName) == 0)
+        {
+            return i + 1;
+        }
+    }
+
+    return -1;
+}
+
 char* GetBookName(int BookID)
 {
     // Get book name by ID, return it

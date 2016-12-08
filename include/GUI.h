@@ -46,3 +46,18 @@ void DrawReturnBookMenu();
 void SetReturnBookMenuBookID(int InID);
 void SetReturnBookMenuCurrentDate(const char* InCurrentDate);
 void SetReturnBookMenuFine(double InFine);
+
+// Status query window
+WINDOW* StatusQueryWindow;
+void CreateStatusQueryWindow();
+void RemoveStatusQueryWindow();
+void DrawStatusQueryWindow();
+void SetStatusQueryWindowBookID(int InBookID);
+
+// Book status window
+WINDOW* BookStatusWindow;
+extern char BookStatusWindowText[MYLIBRARY_MAX_BOOKS][128];
+void CreateBookStatusWindow();
+void RemoveBookStatusWindow();
+void DrawBookStatusWindow();
+void SetBookStatusWindowBookName(const char* NewBookName);

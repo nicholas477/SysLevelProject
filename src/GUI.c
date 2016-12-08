@@ -35,6 +35,9 @@ void RefreshLibraryTerm()
 
     DrawReturnBookMenu();
 
+    DrawStatusQueryWindow();
+    DrawBookStatusWindow();
+
     ResetCursor();
 }
 

@@ -43,6 +43,7 @@ int main()
 
                 case 's':
                     // Book status query by name
+                    OpenStatusQueryWindow();
                     break;
 
                 case 'q':

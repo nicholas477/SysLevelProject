@@ -63,15 +63,6 @@ bool BookExists(int BookID)
     return Books[BookID - 1].bValidBook;
 }
 
-void ReturnBook(int BookID)
-{
-    if (Books[BookID - 1].bValidBook)
-    {
-        strcpy(Books[BookID - 1].Possession, "Library");
-        SaveFile();
-    }
-}
-
 char* GetBookName(int BookID)
 {
     // Get book name by ID, return it
@@ -138,6 +129,18 @@ void CheckOutBook(const char* Username, int BookID)
             sprintf(ReturnDate, "%d-%d-%d", TimeInfo->tm_year + 1900, TimeInfo->tm_mon + 1, TimeInfo->tm_mday);
             strcpy(Books[BookID - 1].ReturnDate, ReturnDate);
         }
+
+        SaveFile();
+    }
+}
+
+void ReturnBook(int BookID)
+{
+    if (Books[BookID - 1].bValidBook)
+    {
+        strcpy(Books[BookID - 1].Possession, "Library");
+        strcpy(Books[BookID - 1].CheckoutDate, "null");
+        strcpy(Books[BookID - 1].ReturnDate, "null");
 
         SaveFile();
     }

@@ -314,6 +314,7 @@ void OpenReturnBookWindow()
     char* CurrentDate = NULL;
     //If this is true, we are asking for the user to input the date
     bool EnteringDate = false;
+    bool bWaitingConfirmation = false;
 
     // While true: keep getting user input even if the user inputs crap
     while (true)
@@ -323,6 +324,15 @@ void OpenReturnBookWindow()
 
         if (strlen(Input) > 0)
         {
+            if (bWaitingConfirmation)
+            {
+                ReturnBook(BookID);
+
+                RemoveReturnBookWindow();
+                SetPromptText("#");
+                return;
+            }
+
             // If we are not entering date, we are asking for the book id
             if (!EnteringDate)
             {
@@ -352,8 +362,9 @@ void OpenReturnBookWindow()
                     CurrentDate = strdup(Input);
                     SetReturnBookMenuCurrentDate(Input);
 
-                    //GetBookFine(CurrentDate, BookID);
                     SetReturnBookMenuFine(GetBookFine(CurrentDate, BookID));
+                    SetPromptText("Confirm:");
+                    bWaitingConfirmation = true;
                 }
                 else
                 {

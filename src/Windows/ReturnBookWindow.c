@@ -3,13 +3,14 @@
 
 int BookID;
 char CurrentDate[32];
-double Fine = -1.0;
+double Fine;
 void PrintReturnBookWindowText();
 
 void CreateReturnBookWindow()
 {
     BookID = -1;
     memset(&CurrentDate, 0, sizeof(CurrentDate));
+    Fine = -1.0;
 
     int MaxX, MaxY, SizeX, SizeY;
     SizeX = 50;

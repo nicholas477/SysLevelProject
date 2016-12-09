@@ -9,6 +9,11 @@ void PrintAuthorStatusWindowText();
 
 void CreateAuthorStatusWindow()
 {
+    if (AuthorStatusWindow)
+    {
+        RemoveAuthorStatusWindow();
+    }
+
     int MaxX, MaxY;
     SizeX = 50;
     SizeY = 6;

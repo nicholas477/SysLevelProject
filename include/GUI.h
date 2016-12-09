@@ -74,3 +74,19 @@ void CreateAuthorStatusWindow();
 void RemoveAuthorStatusWindow();
 void DrawAuthorStatusWindow();
 void SetAuthorStatusWindowAuthor(const char* InAuthor);
+
+// User Query window
+WINDOW* UserQueryWindow;
+void CreateUserQueryWindow();
+void RemoveUserQueryWindow();
+void DrawUserQueryWindow();
+void SetUserQueryWindowUsername(const char* InUsername);
+void SetUserQueryWindowDate(const char* InDate);
+
+// User status window
+WINDOW* UserStatusWindow;
+void CreateUserStatusWindow();
+void RemoveUserStatusWindow();
+void DrawUserStatusWindow();
+void SetUserStatusWindowUsername(const char* InUsername);
+void SetUserStatusWindowCurrentDate(const char* InCurrentDate);

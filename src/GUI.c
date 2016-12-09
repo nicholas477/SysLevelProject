@@ -41,6 +41,9 @@ void RefreshLibraryTerm()
     DrawAuthorQueryWindow();
     DrawAuthorStatusWindow();
 
+    DrawUserQueryWindow();
+    DrawUserStatusWindow();
+
     ResetCursor();
 }
 

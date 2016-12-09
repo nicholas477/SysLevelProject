@@ -53,6 +53,7 @@ int main()
 
                 case 'u':
                     // List books checked out by given user
+                    OpenUserQueryWindow();
                     break;
 
                 case 'x':

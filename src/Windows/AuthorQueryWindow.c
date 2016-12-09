@@ -1,7 +1,7 @@
 #include "Library.h"
 #include "GUI.h"
 
-char Author[128];
+static char Author[128];
 
 void PrintAuthorQueryWindowText();
 

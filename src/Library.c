@@ -53,6 +53,19 @@ void DeleteBook(int BookID)
     }
 }
 
+bool UserExists(const char* Username)
+{
+    for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
+    {
+        if (Books[i].bValidBook && strcmp(Books[i].Possession, Username) == 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool AuthorExists(const char* AuthorName)
 {
     for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)

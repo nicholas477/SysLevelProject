@@ -33,6 +33,7 @@ void InitLibrary();
 // Book funcs
 void AddBook(LibraryRecord NewBook);
 void DeleteBook(int BookID);
+bool UserExists(const char* Username);
 bool AuthorExists(const char* AuthorName);
 bool BookExists(int BookID);
 int GetBookIDByName(const char* BookName);

@@ -9,6 +9,11 @@ void PrintBookStatusWindowText();
 
 void CreateBookStatusWindow()
 {
+    if (BookStatusWindow)
+    {
+        RemoveBookStatusWindow();
+    }
+
     int MaxX, MaxY;
     SizeX = 50;
     SizeY = 6;

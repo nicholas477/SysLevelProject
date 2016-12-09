@@ -8,6 +8,11 @@ void PrintStatusQueryWindowText();
 
 void CreateStatusQueryWindow()
 {
+    if (StatusQueryWindow)
+    {
+        RemoveStatusQueryWindow();
+    }
+
     BookID = -1;
     memset(&WindowRecord, 0, sizeof(WindowRecord));
 

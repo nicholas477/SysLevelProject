@@ -555,3 +555,98 @@ void OpenAuthorQueryWindow()
         }
     }
 }
+
+void OpenUserQueryWindow()
+{
+    char Username[128];
+    memset(&Username, 0, sizeof(Username));
+
+    char CurrentDate[16];
+    memset(&CurrentDate, 0, sizeof(CurrentDate));
+
+    bool bEnteringUsername = false;
+
+    CreateUserQueryWindow();
+    SetPromptText("Current Date:");
+
+    while (true)
+    {
+        char* Input = GetUserInput();
+
+        if (strlen(Input) > 1)
+        {
+            if (!bEnteringUsername)
+            {
+                if (IsLegalDate(Input))
+                {
+                    strcpy(CurrentDate, Input);
+                    SetUserQueryWindowDate(Input);
+                    SetUserStatusWindowCurrentDate(Input);
+                    SetPromptText("Username:");
+                    bEnteringUsername = true;
+                }
+                else
+                {
+                    PrintMessage("Error: Illegal input date!");
+                }
+            }
+            else
+            {
+                if (UserExists(Input))
+                {
+                    strcpy(Username, Input);
+                    SetUserStatusWindowUsername(Input);
+                    CreateUserStatusWindow();
+                }
+                else
+                {
+                    char Buffer[256];
+                    snprintf(Buffer, 256, "User '%s' has no books checked out", Input);
+                    PrintMessage(&Buffer[0]);
+                }
+            }
+        }
+        else if (strlen(Input) == 1)
+        {
+            // If the input is not a number, then check if the user has entered a single character
+            switch(Input[0])
+            {
+                case 'b':
+                    // Return to menu
+                    RemoveUserQueryWindow();
+                    RemoveUserStatusWindow();
+                    SetUserStatusWindowUsername(NULL);
+                    SetUserStatusWindowCurrentDate(NULL);
+                    SetPromptText("#");
+                    return;
+                    break;
+
+                case 't':
+                    // Retry key, reset all the data and menu
+                    SetPromptText("Current Date:");
+                    memset(&Username, 0, sizeof(Username));
+                    memset(&CurrentDate, 0, sizeof(CurrentDate));
+                    SetUserQueryWindowUsername(NULL);
+                    SetUserQueryWindowDate(NULL);
+                    bEnteringUsername = false;
+                    RemoveUserStatusWindow();
+                    SetUserStatusWindowUsername(NULL);
+                    SetUserStatusWindowCurrentDate(NULL);
+                    break;
+
+                default:
+                    PrintMessage("Unrecognized input!");
+                    break;
+            }
+        }
+        else
+        {
+            PrintMessage("Unrecognized input!");
+        }
+
+        if (Input)
+        {
+            free(Input);
+        }
+    }
+}

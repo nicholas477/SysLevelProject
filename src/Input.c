@@ -205,25 +205,34 @@ void OpenCheckOutWindow()
 
                 if (BookExists(BookID))
                 {
-                    SetCheckOutWindowBookID(BookID);
-
-                    CheckOutBook(Username, BookID);
-
-                    if (Username)
+                    if (strcmp(Books[BookID - 1].Possession, "Library") == 0)
                     {
-                        free(Username);
-                        Username = NULL;
+                        SetCheckOutWindowBookID(BookID);
+
+                        CheckOutBook(Username, BookID);
+
+                        if (Username)
+                        {
+                            free(Username);
+                            Username = NULL;
+                        }
+
+                        RemoveCheckOutWindow();
+                        SetPromptText("#");
+
+                        char* BookName = GetBookName(BookID);
+                        char Buffer[256];
+                        snprintf(Buffer, 256, "Book '%s' checked out successfully!", BookName);
+                        PrintMessage(&Buffer[0]);
+                        free(BookName);
+                        return;
                     }
-
-                    RemoveCheckOutWindow();
-                    SetPromptText("#");
-
-                    char* BookName = GetBookName(BookID);
-                    char Buffer[256];
-                    snprintf(Buffer, 256, "Book '%s' checked out successfully!", BookName);
-                    PrintMessage(&Buffer[0]);
-                    free(BookName);
-                    return;
+                    else
+                    {
+                        char Buffer[256];
+                        snprintf(Buffer, 256, "Error: Book number %d has already been checked out!", BookID);
+                        PrintMessage(&Buffer[0]);
+                    }
                 }
                 else
                 {

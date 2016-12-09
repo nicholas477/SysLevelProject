@@ -1,9 +1,9 @@
 #include "Library.h"
 #include "GUI.h"
 
-int BookID;
-char CurrentDate[32];
-double Fine;
+static int BookID;
+static char CurrentDate[32];
+static double Fine;
 void PrintReturnBookWindowText();
 
 void CreateReturnBookWindow()

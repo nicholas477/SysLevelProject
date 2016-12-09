@@ -38,6 +38,8 @@ void RefreshLibraryTerm()
     DrawStatusQueryWindow();
     DrawBookStatusWindow();
 
+    DrawAuthorQueryWindow();
+
     ResetCursor();
 }
 

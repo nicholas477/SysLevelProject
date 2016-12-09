@@ -1,8 +1,8 @@
 #include "Library.h"
 #include "GUI.h"
 
-int BookID;
-LibraryRecord WindowRecord;
+static int BookID;
+static LibraryRecord WindowRecord;
 
 void PrintStatusQueryWindowText();
 

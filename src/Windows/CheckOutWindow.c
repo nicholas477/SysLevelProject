@@ -2,8 +2,8 @@
 #include "GUI.h"
 
 void PrintCheckOutWindowText();
-char* Username = NULL;
-int BookID = -1;
+static char* Username = NULL;
+static int BookID = -1;
 
 void CreateCheckOutWindow()
 {

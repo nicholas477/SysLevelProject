@@ -1,7 +1,7 @@
 #include "Library.h"
 #include "GUI.h"
 
-char* WindowTitle = NULL;
+static char* WindowTitle = NULL;
 
 void PrintMenuText();
 

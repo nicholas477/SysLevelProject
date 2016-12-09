@@ -1,8 +1,9 @@
-// Our "main" header, include this in every c file
+// Fuck C
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <stdbool.h>
 #include <ctype.h>
 #include <time.h>
@@ -32,6 +33,7 @@ void InitLibrary();
 // Book funcs
 void AddBook(LibraryRecord NewBook);
 void DeleteBook(int BookID);
+bool AuthorExists(const char* AuthorName);
 bool BookExists(int BookID);
 int GetBookIDByName(const char* BookName);
 char* GetBookName(int BookID);

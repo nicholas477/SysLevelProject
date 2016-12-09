@@ -1,9 +1,9 @@
 #include "Library.h"
 #include "GUI.h"
 
-char BookName[128];
-int SizeX;
-int SizeY;
+static char BookName[128];
+static int SizeX;
+static int SizeY;
 
 void PrintBookStatusWindowText();
 
@@ -78,11 +78,11 @@ void PrintBookStatusWindowText()
         {
             if (strcmp(Books[i].Possession, "Library") == 0)
             {
-                mvwprintw(BookStatusWindow, BookCount + 2, 2, "%d '%s' Status: In library", i + 1, Books[i].Title);
+                mvwprintw(BookStatusWindow, BookCount + 2, 2, "%d '%s' In library", i + 1, Books[i].Title);
             }
             else
             {
-                mvwprintw(BookStatusWindow, BookCount + 2, 2, "%d '%s' Status: Available after %s", i + 1, Books[i].Title, Books[i].ReturnDate);
+                mvwprintw(BookStatusWindow, BookCount + 2, 2, "%d '%s' Available after %s", i + 1, Books[i].Title, Books[i].ReturnDate);
             }
 
             BookCount++;

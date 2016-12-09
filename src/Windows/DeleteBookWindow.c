@@ -1,7 +1,7 @@
 #include "Library.h"
 #include "GUI.h"
 
-int BookID;
+static int BookID;
 void PrintDeleteBookWindowText();
 
 void CreateDeleteBookWindow()

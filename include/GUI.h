@@ -56,8 +56,21 @@ void SetStatusQueryWindowBookID(int InBookID);
 
 // Book status window
 WINDOW* BookStatusWindow;
-extern char BookStatusWindowText[MYLIBRARY_MAX_BOOKS][128];
 void CreateBookStatusWindow();
 void RemoveBookStatusWindow();
 void DrawBookStatusWindow();
 void SetBookStatusWindowBookName(const char* NewBookName);
+
+// Author Query window
+WINDOW* AuthorQueryWindow;
+void CreateAuthorQueryWindow();
+void RemoveAuthorQueryWindow();
+void DrawAuthorQueryWindow();
+void SetAuthorQueryWindowAuthor(const char* InAuthor);
+
+// Author status window
+WINDOW* AuthorStatusWindow;
+void CreateAuthorStatusWindow();
+void RemoveAuthorStatusWindow();
+void DrawAuthorStatusWindow();
+void SetAuthorStatusWindowAuthor(const char* InAuthor);

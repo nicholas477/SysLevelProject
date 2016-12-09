@@ -492,5 +492,61 @@ void OpenStatusQueryWindow()
             free(Input);
         }
     }
+}
 
+void OpenAuthorQueryWindow()
+{
+    CreateAuthorQueryWindow();
+    SetPromptText("Author Name:");
+
+    while (true)
+    {
+        char* Input = GetUserInput();
+
+        if (strlen(Input) > 1)
+        {
+            if (AuthorExists(Input))
+            {
+                SetAuthorQueryWindowAuthor(Input);
+            }
+            else
+            {
+                char Buffer[256];
+                snprintf(Buffer, 256, "Error: Author '%s' doesn't exist!", Input);
+                PrintMessage(&Buffer[0]);
+            }
+        }
+        else if (strlen(Input) == 1)
+        {
+            // If the input is not a number, then check if the user has entered a single character
+            switch(Input[0])
+            {
+                case 'b':
+                    // Return to menu
+                    RemoveAuthorQueryWindow();
+                    SetPromptText("#");
+                    return;
+                    break;
+
+                case 't':
+                    // Retry key, reset all the data and menu
+                    SetPromptText("Author Name:");
+                    SetAuthorQueryWindowAuthor(NULL);
+                    break;
+
+                default:
+                    PrintMessage("Unrecognized input!");
+                    break;
+            }
+        }
+        else
+        {
+            PrintMessage("Unrecognized input!");
+        }
+
+        if (Input)
+        {
+            free(Input);
+        }
+    }
 }

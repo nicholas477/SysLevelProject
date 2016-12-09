@@ -53,6 +53,19 @@ void DeleteBook(int BookID)
     }
 }
 
+bool AuthorExists(const char* AuthorName)
+{
+    for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
+    {
+        if (Books[i].bValidBook && strcmp(Books[i].Author, AuthorName) == 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool BookExists(int BookID)
 {
     if (BookID < 1 || BookID >= MYLIBRARY_MAX_BOOKS)

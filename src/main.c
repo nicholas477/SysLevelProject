@@ -48,6 +48,7 @@ int main()
 
                 case 'q':
                     // Book query by author sorted by book title
+                    OpenAuthorQueryWindow();
                     break;
 
                 case 'u':

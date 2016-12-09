@@ -1,7 +1,7 @@
 #include "Library.h"
 #include "GUI.h"
 
-LibraryRecord AddBookMenuRecord;
+static LibraryRecord AddBookMenuRecord;
 void PrintAddBookMenuText();
 
 void CreateAddBookWindow()

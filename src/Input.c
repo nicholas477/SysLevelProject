@@ -115,6 +115,7 @@ void OpenDeleteBookMenu()
                 {
                     char Buffer[256];
                     char* BookName = GetBookName(BookID);
+                    SetPromptText("Confirm (y/n):");
                     snprintf(Buffer, 256, "Are you sure you want to delete book '%s'? (Y/N)", BookName);
                     PrintMessage(&Buffer[0]);
                     ConfirmDeleteBook = true;
@@ -322,17 +323,8 @@ void OpenReturnBookWindow()
         // This function will wait until the user presses enter
         char* Input = GetUserInput();
 
-        if (strlen(Input) > 0)
+        if (strlen(Input) > 0 && (IsStringNumber(Input) || IsLegalDate(Input)))
         {
-            if (bWaitingConfirmation)
-            {
-                ReturnBook(BookID);
-
-                RemoveReturnBookWindow();
-                SetPromptText("#");
-                return;
-            }
-
             // If we are not entering date, we are asking for the book id
             if (!EnteringDate)
             {
@@ -395,7 +387,18 @@ void OpenReturnBookWindow()
                     break;
 
                 default:
-                    PrintMessage("Unrecognized input!");
+                    if (bWaitingConfirmation)
+                    {
+                        ReturnBook(BookID);
+
+                        RemoveReturnBookWindow();
+                        SetPromptText("#");
+                        return;
+                    }
+                    else
+                    {
+                        PrintMessage("Unrecognized input!");
+                    }
                     break;
             }
         }

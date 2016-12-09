@@ -8,7 +8,7 @@
             "program": "${workspaceRoot}/bin/library",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceRoot}/bin",
             "environment": [],
             "externalConsole": true,
             "linux": {

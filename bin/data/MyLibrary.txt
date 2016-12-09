@@ -3,5 +3,6 @@
 3,Book2,Author2,User1,2014-10-23,2014-11-22
 4,Book3,Author2,User2,2014-10-23,2014-11-22
 5,Book4,Atuhor3,User2,2014-09-22,2014-10-22
-6,Ham on Rye,Charles Bukowski,Library,null,null
-7,Ham on Rye,Charles Bukowski,Library,null,null
+6,Ham on Rye,Charles Bukowski,Nicholas Chalkley,2016-12-9,2017-1-8
+7,Ham on Rye,Charles Bukowski,Nicholas Chalkley,2016-12-9,2017-1-8
+8,Ham on Rye,Charles Bukowski,Nicholas Chalkley,2016-12-9,2017-1-8

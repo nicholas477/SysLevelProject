@@ -69,7 +69,7 @@ void SetAuthorStatusWindowAuthor(const char* InAuthor)
     }
 }
 
-void SortBooksByTitle(int* InArr);
+void SortBooksByTitle(int* InArr, int Count);
 
 void PrintAuthorStatusWindowText()
 {
@@ -87,11 +87,11 @@ void PrintAuthorStatusWindowText()
         }
     }
 
-    SortBooksByTitle(&BooksByThisAuthor[0]);
+    SortBooksByTitle(&BooksByThisAuthor[0], BookCount);
 
     for (int i = 0; i < BookCount; i++)
     {   
-        if (strcmp(Books[i].Possession, "Library") == 0)
+        if (strcmp(Books[BooksByThisAuthor[i]].Possession, "Library") == 0)
         {
             mvwprintw(AuthorStatusWindow, i + 2, 2, "%d '%s' In library", BooksByThisAuthor[i] + 1, Books[BooksByThisAuthor[i]].Title);
         }
@@ -105,13 +105,20 @@ void PrintAuthorStatusWindowText()
     mvwprintw(AuthorStatusWindow, SizeY - 2, 2, "'b': Return to main menu");
 }
 
-void SortBooksByTitle(int* InArr)
+void SortBooksByTitle(int* InArr, int Count)
 {
-    for (int i = 0; i < MYLIBRARY_MAX_BOOKS; i++)
+    int Temp = -1;
+
+    for (int i = 0; i < Count; i++)
     {
-        for (int j = 0; j < sizeof(Books[i].Author); j++)
+        for (int j = i + 1; j < Count; j++)
         {
-            
+            if (strcmp(Books[InArr[i]].Title, Books[InArr[j]].Title) > 0)
+            {
+                Temp = InArr[i];
+                InArr[i] = InArr[j];
+                InArr[j] = Temp;
+            }
         }
     }
 }

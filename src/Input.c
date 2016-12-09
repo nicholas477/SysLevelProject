@@ -508,6 +508,8 @@ void OpenAuthorQueryWindow()
             if (AuthorExists(Input))
             {
                 SetAuthorQueryWindowAuthor(Input);
+                SetAuthorStatusWindowAuthor(Input);
+                CreateAuthorStatusWindow();
             }
             else
             {
@@ -524,6 +526,7 @@ void OpenAuthorQueryWindow()
                 case 'b':
                     // Return to menu
                     RemoveAuthorQueryWindow();
+                    RemoveAuthorStatusWindow();
                     SetPromptText("#");
                     return;
                     break;
@@ -532,6 +535,8 @@ void OpenAuthorQueryWindow()
                     // Retry key, reset all the data and menu
                     SetPromptText("Author Name:");
                     SetAuthorQueryWindowAuthor(NULL);
+                    RemoveAuthorStatusWindow();
+                    SetAuthorStatusWindowAuthor(NULL);
                     break;
 
                 default:

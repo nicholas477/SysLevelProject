@@ -323,46 +323,45 @@ void OpenReturnBookWindow()
         // This function will wait until the user presses enter
         char* Input = GetUserInput();
 
-        if (strlen(Input) > 0 && (IsStringNumber(Input) || IsLegalDate(Input)))
+        // If we are not entering date, we are asking for the book id
+        if (!EnteringDate && IsStringNumber(Input))
         {
-            // If we are not entering date, we are asking for the book id
-            if (!EnteringDate)
-            {
-                if (IsStringNumber(Input))
-                {
-                    BookID = atoi(Input);
+            BookID = atoi(Input);
 
-                    if (BookExists(BookID))
-                    {
-                        SetReturnBookMenuBookID(BookID);
-                        SetPromptText("Current Date:");
-                        EnteringDate = true;
-                    }
-                    else
-                    {
-                        char Buffer[256];
-                        snprintf(Buffer, 256, "Error: Book number %d doesn't exist!", BookID);
-                        PrintMessage(&Buffer[0]);
-                    }
+            if (BookExists(BookID))
+            {
+                if (strcmp(Books[BookID - 1].Possession, "Library"))
+                {
+                    SetReturnBookMenuBookID(BookID);
+                    SetPromptText("Current Date (yyyy/mm/dd):");
+                    EnteringDate = true;
+                }
+                else
+                {
+                    char Buffer[256];
+                    snprintf(Buffer, 256, "Error: Book number %d hasn't been checked out!", BookID);
+                    PrintMessage(&Buffer[0]);
                 }
             }
             else
             {
-                // We are asking for the date
-                if (IsLegalDate(Input))
-                {
-                    CurrentDate = strdup(Input);
-                    SetReturnBookMenuCurrentDate(Input);
-
-                    SetReturnBookMenuFine(GetBookFine(CurrentDate, BookID));
-                    SetPromptText("Confirm:");
-                    bWaitingConfirmation = true;
-                }
-                else
-                {
-                    PrintMessage("Error: Illegal input date!");
-                }
+                char Buffer[256];
+                snprintf(Buffer, 256, "Error: Book number %d doesn't exist!", BookID);
+                PrintMessage(&Buffer[0]);
             }
+        }
+        else if (EnteringDate && IsLegalDate(Input))
+        {
+            CurrentDate = strdup(Input);
+            SetReturnBookMenuCurrentDate(Input);
+
+            SetReturnBookMenuFine(GetBookFine(CurrentDate, BookID));
+            SetPromptText("Confirm (any key to continue):");
+            bWaitingConfirmation = true;
+        }
+        else if (EnteringDate && strlen(Input) > 1)
+        {
+            PrintMessage("Error: Illegal input date!");
         }
         else if (strlen(Input) == 1)
         {

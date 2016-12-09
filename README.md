@@ -1,5 +1,5 @@
 # SysLevelProject
-This is a bonus project is for Yuan Long's System Level Class. The application is a mini library. 
+This is a bonus project is for Yuan Long's System Level Class. The project is a library application written in C for \*nix based platforms.
 
 # How to compile
 

@@ -9,6 +9,7 @@ void PrintUserQueryWindowText();
 void CreateUserQueryWindow()
 {
     memset(&Username, 0, sizeof(Username));
+    memset(&CurrentDate, 0, sizeof(CurrentDate));
 
     int MaxX, MaxY, SizeX, SizeY;
     SizeX = 40;

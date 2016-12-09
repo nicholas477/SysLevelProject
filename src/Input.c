@@ -365,7 +365,7 @@ void OpenReturnBookWindow()
             SetReturnBookMenuCurrentDate(Input);
 
             SetReturnBookMenuFine(GetBookFine(CurrentDate, BookID));
-            SetPromptText("Confirm (any key to continue):");
+            SetPromptText("Confirm (y/n):");
             bWaitingConfirmation = true;
         }
         else if (EnteringDate && strlen(Input) > 1)
@@ -375,6 +375,8 @@ void OpenReturnBookWindow()
         else if (strlen(Input) == 1)
         {
             // If the input is not a number, then check if the user has entered a single character
+            Input[0] = tolower(Input[0]);
+
             switch(Input[0])
             {
                 case 'b':
@@ -391,10 +393,13 @@ void OpenReturnBookWindow()
                     free(CurrentDate);
                     CurrentDate = NULL;
                     SetReturnBookMenuCurrentDate(NULL);
+                    SetReturnBookMenuFine(-1.0);
                     SetPromptText("Book ID:");
+                    EnteringDate = false;
+                    bWaitingConfirmation = false;
                     break;
 
-                default:
+                case 'y':
                     if (bWaitingConfirmation)
                     {
                         ReturnBook(BookID);
@@ -405,8 +410,31 @@ void OpenReturnBookWindow()
                     }
                     else
                     {
+                        PrintMessage("Unrecognized input!");    
+                    }
+                    break;
+
+                case 'n':
+                    if (bWaitingConfirmation)
+                    {
+                        BookID = -1;
+                        SetReturnBookMenuBookID(BookID);
+                        free(CurrentDate);
+                        CurrentDate = NULL;
+                        SetReturnBookMenuCurrentDate(NULL);
+                        SetReturnBookMenuFine(-1.0);
+                        SetPromptText("Book ID:");
+                        EnteringDate = false;
+                        bWaitingConfirmation = false;
+                    }
+                    else
+                    {
                         PrintMessage("Unrecognized input!");
                     }
+                    break;
+
+                default:
+                    PrintMessage("Unrecognized input!");
                     break;
             }
         }

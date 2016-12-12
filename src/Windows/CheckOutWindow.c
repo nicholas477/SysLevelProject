@@ -1,7 +1,7 @@
 #include "Library.h"
 #include "GUI.h"
 
-void PrintCheckOutWindowText();
+static void PrintCheckOutWindowText();
 static char* Username = NULL;
 static int BookID = -1;
 

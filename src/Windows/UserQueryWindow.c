@@ -4,7 +4,7 @@
 static char Username[128];
 static char CurrentDate[16];
 
-void PrintUserQueryWindowText();
+static void PrintUserQueryWindowText();
 
 void CreateUserQueryWindow()
 {

@@ -6,7 +6,7 @@ static char CurrentDate[16];
 static int SizeX;
 static int SizeY;
 
-void PrintUserStatusWindowText();
+static void PrintUserStatusWindowText();
 
 void CreateUserStatusWindow()
 {

@@ -2,7 +2,7 @@
 #include "GUI.h"
 
 static int BookID;
-void PrintDeleteBookWindowText();
+static void PrintDeleteBookWindowText();
 
 void CreateDeleteBookWindow()
 {

@@ -3,7 +3,7 @@
 
 static char Author[128];
 
-void PrintAuthorQueryWindowText();
+static void PrintAuthorQueryWindowText();
 
 void CreateAuthorQueryWindow()
 {

@@ -4,7 +4,7 @@
 static int BookID;
 static char CurrentDate[32];
 static double Fine;
-void PrintReturnBookWindowText();
+static void PrintReturnBookWindowText();
 
 void CreateReturnBookWindow()
 {

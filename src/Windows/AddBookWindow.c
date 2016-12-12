@@ -2,7 +2,7 @@
 #include "GUI.h"
 
 static LibraryRecord AddBookMenuRecord;
-void PrintAddBookMenuText();
+static void PrintAddBookMenuText();
 
 void CreateAddBookWindow()
 {

@@ -7,12 +7,12 @@
 
 #define MYLIBRARY_BUFFER_SIZE 4096
 
-FILE* MyLibraryFile = NULL;
-char MyLibraryFileBuffer[MYLIBRARY_BUFFER_SIZE];
+static FILE* MyLibraryFile = NULL;
+static char MyLibraryFileBuffer[MYLIBRARY_BUFFER_SIZE];
 
-void ParseMyLibraryFile();
-void PrintOutRecordInfo();
-void ParseLineToRecord(char* Line);
+static void ParseMyLibraryFile();
+static void PrintOutRecordInfo();
+static void ParseLineToRecord(char* Line);
 
 void InitLibraryFile()
 {

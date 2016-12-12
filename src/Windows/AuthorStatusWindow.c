@@ -5,7 +5,7 @@ static char AuthorName[128];
 static int SizeX;
 static int SizeY;
 
-void PrintAuthorStatusWindowText();
+static void PrintAuthorStatusWindowText();
 
 void CreateAuthorStatusWindow()
 {

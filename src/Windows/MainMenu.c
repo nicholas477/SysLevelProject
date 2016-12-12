@@ -3,7 +3,7 @@
 
 static char* WindowTitle = NULL;
 
-void PrintMenuText();
+static void PrintMenuText();
 
 void DrawMainMenu()
 {

@@ -4,7 +4,7 @@
 static int BookID;
 static LibraryRecord WindowRecord;
 
-void PrintStatusQueryWindowText();
+static void PrintStatusQueryWindowText();
 
 void CreateStatusQueryWindow()
 {

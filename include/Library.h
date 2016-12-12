@@ -1,4 +1,4 @@
-// Fuck C
+// The main Library header. Include this in every .c file
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -4,11 +4,11 @@
 #define MAX_WINDOWS 5
 #define BUFFER_LEN 256
 
-int MaxX, MaxY;
-WINDOW* Windows[MAX_WINDOWS];
-char* PromptText = NULL;
+static int MaxX, MaxY;
+static WINDOW* Windows[MAX_WINDOWS];
+static char* PromptText = NULL;
 
-void ResetCursor();
+static void ResetCursor();
 
 void InitGUI()
 {

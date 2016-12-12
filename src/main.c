@@ -2,7 +2,7 @@
 #include "GUI.h"
 #include "Input.h"
 
-void ExitProgram();
+static void ExitProgram();
 
 int main()
 {

@@ -5,7 +5,7 @@ static char BookName[128];
 static int SizeX;
 static int SizeY;
 
-void PrintBookStatusWindowText();
+static void PrintBookStatusWindowText();
 
 void CreateBookStatusWindow()
 {
